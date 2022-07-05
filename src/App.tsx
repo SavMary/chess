@@ -1,19 +1,18 @@
 import React, { useEffect, useState } from 'react';
-import './App.css';
+import './App.scss';
 import { Board } from './Board';
-import BoardComponent from './components/BoardComponent';
+import BoardComponent from './components/BoardComponent/BoardComponent';
 import { Player } from './Player';
 import { Colors } from './types/ColorType';
 
 function App() {
   const [board, setBoard] = useState(new Board());
-  const [whitePlayer, setWhitePlayer] = useState(new Player(Colors.WHITE))
-  const [blackPlayer, setBlackPlayer] = useState(new Player(Colors.BLACK))
-  const [currentPlayer, setCurrentPlayer] = useState<Player | null>(null);
+  const whitePlayer = new Player(Colors.WHITE);
+  const blackPlayer = new Player(Colors.BLACK);
+  const [currentPlayer, setCurrentPlayer] = useState<Player>(whitePlayer);
 
   useEffect(() => {
     restart();
-    setCurrentPlayer(whitePlayer);
   }, [])
 
   function restart() {

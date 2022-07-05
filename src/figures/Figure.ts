@@ -18,13 +18,12 @@ export class Figure {
   id: number;
 
 
-  constructor(color: Colors, cell: Cell, name: FigureNames) {
+  constructor(color: Colors, cell: Cell) {
     this.color = color;
     this.cell = cell;
     this.cell.figure = this;
     this.logo = null;
-    this.name = name;
-    // this.name = FigureNames.FIGURE
+    this.name = FigureNames.FIGURE
     this.id = Math.random()
   }
 

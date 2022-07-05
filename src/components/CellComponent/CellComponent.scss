@@ -1,0 +1,28 @@
+$bsize-cell: 94px;
+$bsize-figure: 48px;
+$bsize-circle: 12px;
+
+.cell {
+  width: $bsize-cell;
+  height: $bsize-cell;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  & img {
+    width: $bsize-figure;
+    height: $bsize-figure;
+    position: relative;
+  }
+
+  &--selected {
+    background-color: brown;
+  }
+
+  &--available {
+    height: $bsize-circle;
+    width: $bsize-circle;
+    border-radius: 50%;
+    background-color: #22c022;
+  }
+}
