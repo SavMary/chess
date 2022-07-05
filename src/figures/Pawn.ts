@@ -6,9 +6,10 @@ import { Colors } from "../types/ColorType";
 
 export class Pawn extends Figure {
 
-  constructor(color: Colors, cell: Cell) {
-    super(color, cell);
+  constructor(color: Colors, cell: Cell, name: FigureNames) {
+    super(color, cell, name);
     this.logo = color === Colors.BLACK ? blackLogo : whiteLogo;
-    this.name = FigureNames.PAWN;
+    // this.name = FigureNames.PAWN;
+    this.name = name;
   }
 }

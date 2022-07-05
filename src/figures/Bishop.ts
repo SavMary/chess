@@ -6,9 +6,10 @@ import whiteLogo from '../assets/white-bishop.png'
 
 export class Bishop extends Figure {
 
-  constructor(color: Colors, cell: Cell) {
-    super(color, cell);
+  constructor(color: Colors, cell: Cell, name: FigureNames) {
+    super(color, cell, name);
     this.logo = color === Colors.BLACK ? blackLogo : whiteLogo;
-    this.name = FigureNames.BISHOP;
+    // this.name = FigureNames.BISHOP;
+    this.name = name;
   }
 }

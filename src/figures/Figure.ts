@@ -18,12 +18,13 @@ export class Figure {
   id: number;
 
 
-  constructor(color: Colors, cell: Cell) {
+  constructor(color: Colors, cell: Cell, name: FigureNames) {
     this.color = color;
     this.cell = cell;
     this.cell.figure = this;
     this.logo = null;
-    this.name = FigureNames.FIGURE
+    this.name = name;
+    // this.name = FigureNames.FIGURE
     this.id = Math.random()
   }
 
@@ -37,4 +38,6 @@ export class Figure {
     }
     return true;
   }
+
+  moveFigure(target: Cell) {}
 }

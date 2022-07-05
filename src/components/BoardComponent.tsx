@@ -13,11 +13,20 @@ interface BoardProps {
 
 const BoardComponent: React.FC<BoardProps> = ({board, setBoard, currentPlayer, swapPlayer}) => {
   const [selectedCell, setSelectedCell] = useState<Cell | null>(null);
-  const [selectedFigure, setSelectedFigure] = useState<Cell | null>(null)
 
-  // useEffect(() => {
-  //   setSelectedCell(board.getCell(0, 3))
-  // }, []);
+  useEffect(() => {
+    highlightCells()
+  }, [selectedCell])
+
+  function highlightCells() {
+    board.highlightCells(selectedCell)
+    updateBoard()
+  }
+
+  function updateBoard() {
+    const newBoard = board.getCopyBoard()
+    setBoard(newBoard)
+  }
 
   window.addEventListener('keydown', function(e) {
     let cell;
@@ -51,10 +60,12 @@ const BoardComponent: React.FC<BoardProps> = ({board, setBoard, currentPlayer, s
             y: selectedCell.y + 1,
           }
           break;
-        case "Enter":  
-          e.preventDefault();
-          setSelectedFigure(selectedCell);
-          break;
+        // case "Enter":
+        //   e.preventDefault();
+        //   if (cell) {
+        //     click(cell)
+        //   }
+          // break;
 
         default:
           break;
@@ -66,33 +77,31 @@ const BoardComponent: React.FC<BoardProps> = ({board, setBoard, currentPlayer, s
     }
   })
 
-  // useEffect(() => {
-  //   highlightCells()
-  // }, [selectedFigure])
-
-  // function highlightCells() {
-  //   board.highlightCells(selectedFigure)
-  //   updateBoard()
-  // }
-
-  // function updateBoard() {
-  //   const newBoard = board.getCopyBoard()
-  //   setBoard(newBoard)
-  // }
+  function click(newcell: Cell) {
+    if (selectedCell && selectedCell !== newcell && selectedCell.figure?.canMove(newcell)) {
+      selectedCell.moveFigure(newcell);
+      swapPlayer()
+      setSelectedCell(null);
+      updateBoard()
+    } else {
+      if (newcell.figure?.color === currentPlayer?.color) {
+        setSelectedCell(newcell);
+      }
+    }
+  }
   
   return (
     <div>
-      <button
+
+      {!selectedCell ? (
+        <button
         type="button"
-        onClick={() => setSelectedCell(board.getCell(0, 3))}
+        onKeyPress={() => setSelectedCell(board.getCell(0, 3))}
       >
         Start
       </button>
-      {selectedCell && (
-        <h3>Current player {currentPlayer?.color}</h3>
-      )}
-      {selectedFigure && (
-        <h3>{`${selectedFigure.figure?.name}-${selectedFigure.color}`}</h3>
+      ) : (
+          <h3>Current player {currentPlayer?.color}</h3>
       )}
       <div className="board">
         {board.cells.map((row, index) =>
@@ -102,7 +111,7 @@ const BoardComponent: React.FC<BoardProps> = ({board, setBoard, currentPlayer, s
                 cell={cell}
                 key={cell.id}
                 selectedCell={cell.x === selectedCell?.x && cell.y === selectedCell?.y}
-                selectedFigure={cell.x === selectedFigure?.x && cell.y === selectedFigure?.y}
+                click={click}
               />
             )}
           </React.Fragment>
