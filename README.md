@@ -4,6 +4,20 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 [Demo Link](https://savmary.github.io/chess/)
 
+Implemented 5x5 chessboard with 4 arbitrary types of pieces. 
+
+Movement of figures occurs with mouse clicks.
+
+Number of players - 2. Moves take place in turn.
+
+OOP was used to write the figures and the board
+
+Styles are described according to BEM methodology.
+
+The Classnames library is used to describe classes.
+
+The code is written in typescript using the React library.
+
 ## Available Scripts
 
 In the project directory, you can run:
