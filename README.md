@@ -16,7 +16,7 @@ Styles are described according to BEM methodology.
 
 The Classnames library is used to describe classes.
 
-The code is written in typescript using the React library.
+The code is written in TypeScript using the React library.
 
 ## Available Scripts
 
