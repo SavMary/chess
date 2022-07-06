@@ -1,6 +1,13 @@
-$bsize-cell: 94px;
-$bsize-figure: 48px;
-$bsize-circle: 12px;
+@import "../../utils/vars";
+
+.black {
+  background-color: rgb(39, 97, 117);
+}
+    
+.white {
+  background-color: #f5d73f;
+}
+  
 
 .cell {
   width: $bsize-cell;
@@ -13,16 +20,21 @@ $bsize-circle: 12px;
     width: $bsize-figure;
     height: $bsize-figure;
     position: relative;
+    cursor: pointer;
   }
 
   &--selected {
-    background-color: brown;
+    background-color: rgb(41, 180, 166);
   }
 
   &--available {
     height: $bsize-circle;
     width: $bsize-circle;
     border-radius: 50%;
-    background-color: #22c022;
+    background-color: yellowgreen;
+  }
+
+  &--available-kill {
+    background-color: green;
   }
 }

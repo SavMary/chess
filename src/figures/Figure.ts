@@ -4,10 +4,10 @@ import {Cell} from "../Cell";
 
 export enum FigureNames {
   FIGURE = "Figure",
-  KING = "King",
   PAWN = "Pawn",
   QUEEN = "Queen",
   BISHOP = "Bishop",
+  ROOK = "ROOK"
 }
 
 export class Figure {
@@ -29,10 +29,6 @@ export class Figure {
 
   canMove(target: Cell) : boolean {
     if(target.figure?.color === this.color) {
-      return false
-    }
-
-    if(target.figure?.name === FigureNames.KING) {
       return false
     }
     return true;

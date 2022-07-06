@@ -1,17 +1,13 @@
-$bsize-cell: 94px;
-$amount-cell: 5;
+@import "../../utils/vars";
 
 .board {
   width: $bsize-cell * $amount-cell;
   height: $bsize-cell * $amount-cell;
   display: flex;
   flex-wrap: wrap;
-}
 
-.black {
-  background-color: deepskyblue;
-}
-
-.white {
-  background-color: #eed4ac;
+  &__title {
+    text-align: center;
+    padding: 20px;
+  }
 }

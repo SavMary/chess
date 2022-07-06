@@ -1,111 +1,71 @@
-import React, { useEffect, useState }  from 'react';
+import React, { useCallback, useEffect, useState }  from 'react';
 import {Board} from "../../Board";
 import { Cell } from '../../Cell';
 import { Player } from '../../Player';
 import CellComponent from "../CellComponent/CellComponent";
 import './BoardComponent.scss';
 
-interface BoardProps {
+interface Props {
   board: Board;
-  setBoard: (board: Board) => void;
+  boardHandler: (board: Board) => void
   currentPlayer: Player | null;
   swapPlayer: () => void;
 }
 
-const BoardComponent: React.FC<BoardProps> = ({board, setBoard, currentPlayer, swapPlayer}) => {
+const BoardComponent: React.FC<Props> = React.memo(
+  ({board, boardHandler, currentPlayer, swapPlayer}) => {
   const [selectedCell, setSelectedCell] = useState<Cell | null>(null);
 
   useEffect(() => {
-    highlightCells()
-  }, [selectedCell])
+    highlightCells();
+  }, [selectedCell]);
 
-  function highlightCells() {
-    board.highlightCells(selectedCell)
-    updateBoard()
-  }
-
-  function updateBoard() {
-    const newBoard = board.getCopyBoard()
-    setBoard(newBoard)
-  }
-  // function handler(e: KeyboardEvent) {
-  //   let cell;
-  //   console.log(e.key, selectedCell)
-  //   if (selectedCell) {
-  //     switch(e.key) {
-  //       case "ArrowLeft":
-  //         cell = {
-  //           ...selectedCell,
-  //           x: selectedCell.x - 1,
-  //         };
-  //         break;
-
-  //       case "ArrowUp": 
-  //         cell = {
-  //           ...selectedCell,
-  //           y: selectedCell.y - 1,
-  //         };
-  //         break;
-        
-  //       case "ArrowRight":
-  //         cell = {
-  //           ...selectedCell,
-  //           x: selectedCell.x + 1,
-  //         };
-  //         break;
-
-  //       case "ArrowDown":  
-  //         cell = {
-  //           ...selectedCell,
-  //           y: selectedCell.y + 1,
-  //         }
-  //         break;
-  //       case "Enter":
-  //         // e.preventDefault();
-  //         // if (cell) {
-  //         //   click(cell)
-  //         // }
-  //         break;
-
-  //       default:
-  //         break;
-  //     }
-
-  //     if (cell) {
-  //       setSelectedCell(board.getCell(cell?.x, cell?.y));
-  //     }
-  //   }
-  // }
-  // useEffect(() => {
-  //     window.addEventListener('keydown', handler)
-  // }, [])
-
-
-  function click(newcell: Cell) {
-    if (selectedCell && selectedCell !== newcell && selectedCell.figure?.canMove(newcell)) {
-      selectedCell.moveFigure(newcell);
-      swapPlayer()
-      setSelectedCell(null);
+  const highlightCells = useCallback(
+    () => {
+      board.availableCells(selectedCell)
       updateBoard()
-    } else {
-      if (newcell.figure?.color === currentPlayer?.color) {
-        setSelectedCell(newcell);
+    }, [selectedCell],
+  );
+
+  const updateBoard = useCallback(
+    () => {
+      const newBoard = board.getCopyBoard()
+      boardHandler(newBoard)
+    }, [board],
+  );
+
+  const clickHandler = useCallback(
+    (newcell: Cell) => {
+      if (selectedCell && selectedCell !== newcell && selectedCell.figure?.canMove(newcell)) {
+        selectedCell.moveFigure(newcell);
+        swapPlayer()
+        setSelectedCell(null);
+        updateBoard()
+      } else {
+        if (newcell.figure?.color === currentPlayer?.color) {
+          setSelectedCell(newcell);
+        }
       }
-    }
-  }
+    }, [selectedCell],
+  );
   
   return (
     <div>
-      <h3 className={currentPlayer?.color}>Current player {currentPlayer?.color}</h3>
+      <h2 
+        style={{color: currentPlayer?.color}}
+        className="board__title"
+      >
+        Current player {currentPlayer?.color}
+      </h2>
       <div className="board">
-        {board.cells.map((row, index) =>
-          <React.Fragment key={index}>
+        {board.cells.map((row, i) =>
+          <React.Fragment key={i}>
             {row.map(cell =>
               <CellComponent
                 cell={cell}
                 key={cell.id}
                 selectedCell={cell.x === selectedCell?.x && cell.y === selectedCell?.y}
-                click={click}
+                clickHandler={clickHandler}
               />
             )}
           </React.Fragment>
@@ -113,6 +73,6 @@ const BoardComponent: React.FC<BoardProps> = ({board, setBoard, currentPlayer, s
       </div>
     </div>
   );
-};
+});
 
 export default BoardComponent;

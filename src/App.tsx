@@ -15,26 +15,37 @@ function App() {
     restart();
   }, [])
 
-  function restart() {
+  const restart = () => {
     const newBoard = new Board();
     newBoard.initCells()
     newBoard.addFigures()
     setBoard(newBoard)
   }
   
-  function swapPlayer() {
+  const swapPlayer = () => {
     setCurrentPlayer(currentPlayer?.color === Colors.WHITE ? blackPlayer : whitePlayer)
   }
 
+  const boardHandler = (board: Board) => {
+    setBoard(board)
+  }
+
   return (
-    <div className='app'>
+    <div className='chess'>
       <BoardComponent
         board={board}
-        setBoard={setBoard}
+        boardHandler={boardHandler}
         currentPlayer={currentPlayer}
         swapPlayer={swapPlayer}
       />
-    </div>
+      <button
+        type='button'
+        onClick={restart}
+        className="chess__button"
+      >
+        Restart
+      </button>
+  </div>
   );
 }
 

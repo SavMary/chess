@@ -3,10 +3,31 @@
   padding: 0;
 }
 
-.app {
+.chess {
   width: 100vw;
   height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
+
+  background-color: #ccc;
+
+  &__button {
+    margin-left: 50px;
+    width: 80px;
+    height: 40px;
+
+    border-color: transparent;
+    border-radius: 10px;
+
+    cursor: pointer;
+
+    background-color: yellowgreen;
+    
+    transition: transform 0.3s;
+
+    &:hover {
+      transform: scale(1.05);
+    }
+  }
 }
